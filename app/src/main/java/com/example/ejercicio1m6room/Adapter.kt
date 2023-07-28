@@ -37,7 +37,8 @@ class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: ItemBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(tareac: TareaC) {
+        fun bind(tareaC: TareaC) {
+            binding.mostraBDTxt.text = tareaC.nombreTarea
 
         }
 

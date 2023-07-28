@@ -28,7 +28,7 @@ class AgregarFragment : Fragment() {
 
         binding = FragmentAgregarBinding.inflate(layoutInflater, container, false)
         initListener()
-        loadTarea()
+        //loadTarea()
         return binding.root
     }
 
