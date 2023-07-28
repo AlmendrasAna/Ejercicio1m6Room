@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 class AgregarFragment : Fragment() {
 
     lateinit var binding: FragmentAgregarBinding
+    lateinit var repositorioTarea: RepositorioTarea
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -21,14 +22,18 @@ class AgregarFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
 
         binding = FragmentAgregarBinding.inflate(layoutInflater, container, false)
+        initRepositorio()
         initListener()
         LoadTarea()
         return binding.root
+    }
+
+    private fun initRepositorio() {
+        repositorioTarea = RepositorioTarea(BaseDatosTarea.getDatabase(requireContext()).getDaoTarea())
     }
 
     private fun initListener() {
@@ -40,20 +45,17 @@ class AgregarFragment : Fragment() {
 
     private fun saveTarea(txt: String) {
 
-        val daoTarea = BaseDatosTarea.getDatabase(requireContext()).getDaoTarea()
         val tarea = TareaC(txt)
-        GlobalScope.launch { daoTarea.insertarTarea(tarea) }
+        GlobalScope.launch { repositorioTarea.insertarTarea(tarea) }
     }
 
     private fun LoadTarea() {
-        val daoTarea = BaseDatosTarea.getDatabase(requireContext()).getDaoTarea()
 
-        GlobalScope.launch {
-            val tareas = daoTarea.getTasks()
-            val tareaText = tareas.joinToString("\n") { it.nombreTarea }
+
+        val tareas = repositorioTarea.listarTarea().observe(requireActivity()) {
+            val tareaText = it.joinToString("\n") { it.nombreTarea }
             binding.titleTxt.text = tareaText
         }
-
 
     }
 
