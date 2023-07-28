@@ -1,6 +1,7 @@
 package com.example.ejercicio1m6room
 
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -20,6 +21,8 @@ class Adapter : RecyclerView.Adapter<Adapter.ViewHolder>() {
     }
 
     override fun getItemCount(): Int {
+       val c= tareasC.size
+        Log.e("lol", "getItemCount:$c")
         return tareasC.size
     }
 
